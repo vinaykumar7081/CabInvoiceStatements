@@ -59,5 +59,25 @@ namespace InvoiceGeneratorStatements
             }
             return Math.Max(calculateFair, MIN_FAIR);
         }
+        public double CalaulateMultipleRides(Ride[] rides)
+        {
+            double result = 0.0d;
+            try
+            {
+                foreach (var data in rides)
+                {
+                    result += CalculatingFair((int)data.distance, (int)data.time);
+                }
+            }
+            catch (CabInvoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides are Null");
+                }
+            }
+            return result / rides.Length;
+
+        }
     }
 }
