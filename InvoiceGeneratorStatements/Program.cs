@@ -8,7 +8,7 @@ public class Program
         bool check=true;
         while (check)
         { 
-            Console.WriteLine(" Enter the Zero (0) To Stop the Execution\n 1.Display Fare Of Cab \n 2. Display Fare Of Multiple Rides\n 3. Display Invoice Summary \n 4. Invoice Summary Given the User id\n ");
+            Console.WriteLine(" Enter the Zero (0) To Stop the Execution\n 1.Display Fare Of Cab \n 2. Display Fare Of Multiple Rides\n 3. Display Invoice Summary \n 4. Invoice Summary Given the User id\n 5. Rides For PremiumInvoice ");
             Console.WriteLine("Enter the Above Option to perform the Specific Operation");
             int option=Convert.ToInt32(Console.ReadLine());
             switch (option)
@@ -22,7 +22,7 @@ public class Program
                     check=false;
                     break;
                 case 2:
-                    CabInvoiceGenerator invoice = new CabInvoiceGenerator(RideType.PREMIER);
+                    CabInvoiceGenerator invoice = new CabInvoiceGenerator(RideType.PREMIUM);
                     Ride[] rides = { new Ride(15, 5), new Ride(25, 10), new Ride(20, 20) };
                     double result1 = invoice.CalaulateMultipleRides(rides);
                     Console.WriteLine("Result is:->"+result1);
@@ -41,6 +41,13 @@ public class Program
                    
                     InvoiceSummary summary = invoiceSummary.GetRideInvoiceSummary("1005abc");
                     Console.WriteLine("Total Number of Rides:->" + summary.totalNumberOfRides + "\n" + "Total Fare:->" + summary.totalFair + "\n" + "Average Fare:->" + summary.averageFair);
+                    break;
+                case 5:
+                    CabInvoiceGenerator preInvoice = new CabInvoiceGenerator(RideType.PREMIUM);
+                    Ride[] preRides = { new Ride(15, 10), new Ride(35, 35), new Ride(25, 15), new Ride(15, 15), new Ride(50, 60) };
+                    InvoiceSummary preInvoSummary = preInvoice.InvoiceSummaryForPremiumRides(preRides);
+                    Console.WriteLine("Total Number of Rides:->" + preInvoSummary.totalNumberOfRides + "\n" + "Total Fare:->" + preInvoSummary.totalFair + "\n" + "Average Fare:->" + preInvoSummary.averageFair);
+
                     break;
                 default: Console.WriteLine(" $$$$$$$$ Please Enter the Correct option Among the Above To Perform the Specific Operaton $$$$$$$$ ");break;
             }

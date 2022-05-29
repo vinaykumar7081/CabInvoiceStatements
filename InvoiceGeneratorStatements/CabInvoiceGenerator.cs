@@ -20,14 +20,14 @@ namespace InvoiceGeneratorStatements
             {
                 if (rideType.Equals(RideType.NORMAL))
                 {
-                    this.MIN_FAIR = 10;
-                    this.FAIR_PR_KM = 15;
-                    this.FAIR_PR_MINUTE = 5;
-                }
-                else if (rideType.Equals(RideType.PREMIER))
-                {
                     this.MIN_FAIR = 5;
                     this.FAIR_PR_KM = 10;
+                    this.FAIR_PR_MINUTE = 1;
+                }
+                else if (rideType.Equals(RideType.PREMIUM))
+                {
+                    this.MIN_FAIR = 20;
+                    this.FAIR_PR_KM = 15;
                     this.FAIR_PR_MINUTE = 2;
                 }
             }
@@ -107,6 +107,25 @@ namespace InvoiceGeneratorStatements
         {
             Ride[] result = this.repository.GetRide(userId);
             return CalaulateMultipleRidesSummary(result);
+        }
+        public InvoiceSummary InvoiceSummaryForPremiumRides(Ride[] rides)
+        {
+            double result = 0.0d;
+            try
+            {
+                foreach (var data in rides)
+                {
+                    result = CalculatingFair((int)data.distance, (int)data.time);
+                }
+            }
+            catch (CabInvoiceException)
+            {
+                if (rides == null)
+                {
+                    throw new CabInvoiceException(CabInvoiceException.ExceptionType.NULL_RIDES, "Rides are Null");
+                }
+            }
+            return new InvoiceSummary(rides.Length, result);
         }
     }
 }
